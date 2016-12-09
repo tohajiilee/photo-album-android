@@ -1,5 +1,7 @@
 package rmd194jjc372.photoalbumandroid95.model;
 
+import android.graphics.Bitmap;
+
 import java.io.File;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -14,19 +16,20 @@ public class Photo implements Serializable
 {
 	
 	/** The photo directory. */
-	public String photoLoc;
+	//public String photoLoc;
 	
 	/** The caption. */
-	String caption;
+	//String caption;
 	
 	/** The photo file. */
-	File photo;
-	
+	private Bitmap photo;
+	/** the photo name */
+	private String name;
 	/** The date taken. */
-	long takenDate;
+	//long takenDate;
 	
 	/** The date taken with milliseconds appended. */
-	Calendar takenCal;
+	//Calendar takenCal;
 	
 	/** The tag list. */
 	ArrayList<Tag> tagList;
@@ -36,25 +39,37 @@ public class Photo implements Serializable
 	 *
 	 * @param photoIn the photo in
 	 */
-	public Photo(File photoIn)
+	public Photo(Bitmap photoIn)
 	{
 		photo = photoIn;
-		if(photoIn != null){
-			photoLoc = photoIn.getPath();
-			takenDate = photo.lastModified();
-			takenCal = Calendar.getInstance();
-			takenCal.setTimeInMillis(photo.lastModified());
-			takenCal.set(Calendar.MILLISECOND, 0);
+		if(photoIn != null)
+		{
+			//photoLoc = photoIn.getPath();
+			//takenDate = photo.lastModified();
+			//takenCal = Calendar.getInstance();
+			//takenCal.setTimeInMillis(photo.lastModified());
+			//takenCal.set(Calendar.MILLISECOND, 0);
 		}
 		tagList = new ArrayList<Tag>();
 	}
+
+    public Photo (Bitmap photoIn, String newName)
+    {
+        photo = photoIn;
+        if(photoIn != null)
+        {
+            name = newName;
+            //photoLoc = photoIn.getPath();
+        }
+        tagList = new ArrayList<Tag>();
+    }
 
 	/**
 	 * Gets the photo.
 	 *
 	 * @return the photo
 	 */
-	public File getPhoto(){
+    public Bitmap getPhoto(){
 		return photo;
 	}
 
@@ -63,9 +78,9 @@ public class Photo implements Serializable
 	 *
 	 * @return the directory
 	 */
-	public String getLoc()
+	/*public String getLoc()
 	{
-		return photoLoc;
+		//return photoLoc;
 	}
 
 	/**
@@ -75,7 +90,7 @@ public class Photo implements Serializable
 	 */
 	public String getName()
 	{
-		return photo.getName();
+		return name;
 	}
 
 	/**
@@ -83,7 +98,7 @@ public class Photo implements Serializable
 	 *
 	 * @return the date
 	 */
-	public String getDate()
+	/*public String getDate()
 	{
 		String date;
 		SimpleDateFormat ymd = new SimpleDateFormat("yyyy/MM/dd");
@@ -96,7 +111,7 @@ public class Photo implements Serializable
 	 *
 	 * @return the time
 	 */
-	public String getTime()
+	/*public String getTime()
 	{
 		String time;
 		SimpleDateFormat tms = new SimpleDateFormat("k:m:s");
@@ -109,7 +124,7 @@ public class Photo implements Serializable
 	 *
 	 * @return the long time
 	 */
-	public long getLongTime()
+	/*public long getLongTime()
 	{
 		return takenDate;
 	}
@@ -119,7 +134,7 @@ public class Photo implements Serializable
 	 *
 	 * @return the caption
 	 */
-	public String getCaption()
+	/*public String getCaption()
 	{
 		return caption;
 	}
@@ -139,22 +154,22 @@ public class Photo implements Serializable
 	 *
 	 * @param photoIn the new file
 	 */
-	public void setFile(File photoIn)
+	public void setFile(Bitmap photoIn)
 	{
 		photo = photoIn;
-		photoLoc = photoIn.getPath();
-		takenDate = photo.lastModified();
-		takenCal = Calendar.getInstance();
-		takenCal.setTimeInMillis(photo.lastModified());
-		takenCal.set(Calendar.MILLISECOND, 0);
+		//photoLoc = photoIn.getPath();
+		//takenDate = photo.lastModified();
+		//takenCal = Calendar.getInstance();
+		//takenCal.setTimeInMillis(photo.lastModified());
+		//takenCal.set(Calendar.MILLISECOND, 0);
 	}
 
 	/**
 	 * Sets the caption.
 	 *
-	 * @param captionIn the new caption
+	 * //@param captionIn the new caption
 	 */
-	public void setCaption(String captionIn)
+	/*public void setCaption(String captionIn)
 	{
 		caption = captionIn;
 	}
