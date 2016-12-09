@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -18,12 +19,14 @@ import java.util.ArrayList;
 
 import rmd194jjc372.photoalbumandroid95.model.Album;
 
+import static android.R.id.list;
 import static rmd194jjc372.photoalbumandroid95.R.id.AlbumListView;
 
 public class HomeScreen extends AppCompatActivity
 {
     public static ArrayList<Album> albumAL = new ArrayList<Album>();
     public static ArrayList<String> stringAL = new ArrayList<String>();
+    public static Album selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class HomeScreen extends AppCompatActivity
         if(albumAL.isEmpty())
         {
             albumAL.add(new Album("TestAlbum"));
+
         }
         loadStrings();
 
@@ -50,6 +54,20 @@ public class HomeScreen extends AppCompatActivity
             {
                 startActivity(new Intent(view.getContext(),AddNewAlbum.class));
             }
+        });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                selected = albumAL.get(position);
+
+                Intent intent = new Intent(HomeScreen.this, AlbumView.class);
+
+                startActivity(intent);
+
+            }
+
         });
     }
 
@@ -74,6 +92,8 @@ public class HomeScreen extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     public void loadStrings()
     {
