@@ -27,7 +27,8 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/AlbumListView" />
+        android:id="@+id/AlbumListView"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

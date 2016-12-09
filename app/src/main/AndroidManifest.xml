@@ -21,7 +21,7 @@
         <activity
             android:name=".AddNewAlbum"
             android:label="@string/title_activity_add_new_album"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
