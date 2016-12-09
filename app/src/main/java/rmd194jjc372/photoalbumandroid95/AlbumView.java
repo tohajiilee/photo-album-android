@@ -1,6 +1,7 @@
 package rmd194jjc372.photoalbumandroid95;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.GridView;
 
 import java.util.ArrayList;
@@ -39,11 +42,35 @@ public class AlbumView extends AppCompatActivity {
         gridView.setAdapter(gridAdapter);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_album_view, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id = item.getItemId();
+
+        if (id == R.id.action_delete)
+        {
+            HomeScreen.albumAL.remove(selected);
+            selected = null;
+            startActivity(new Intent(this,HomeScreen.class));
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
-    // Prepare some dummy data for gridview
+
+    //Get dataset from current album
     private ArrayList<Photo> getData() {
-        final ArrayList<Photo> imageItems = selected.getPhotoList();//set array of photos in use to current album's
+        final ArrayList<Photo> imageItems = selected.getPhotoList();
         return imageItems;
     }
 }
