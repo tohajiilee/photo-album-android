@@ -31,13 +31,14 @@ public class AlbumView extends AppCompatActivity {
     private GridView gridView;
     private GridViewAdapter gridAdapter;
     private Album selected;
+    private ArrayList<Photo> photos;
     static final int  LOAD_IMAGE_RESULTS = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         selected = HomeScreen.selected;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_view);
-
+        photos = getData();
         //getActionBar().setTitle("PhotoAlbum95: " + selected.getName());
         //getSupportActionBar().setTitle("PhotoAlbum95: " + selected.getName());
         //Log.d("Tag", selected.getName());
@@ -64,6 +65,8 @@ public class AlbumView extends AppCompatActivity {
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
 
                 startActivityForResult(chooserIntent, LOAD_IMAGE_RESULTS);
+
+
             }
         });
 
@@ -101,11 +104,11 @@ public class AlbumView extends AppCompatActivity {
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath, options);
+            Bitmap bitmapIn = BitmapFactory.decodeFile(imagePath, options);
 
             // Do something with the bitmap
 
-
+            selected.addPhoto(new Photo(bitmapIn));
             // At the end remember to close the cursor or you will end with the RuntimeException!
             cursor.close();
         }
