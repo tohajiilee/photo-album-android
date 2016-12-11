@@ -50,12 +50,11 @@ public class GridViewAdapter extends ArrayAdapter {
         Log.d("name", item.getName());
         if( holder.imageTitle == null)
         {
-            Log.e("FUCK", "FUCK");
+            Log.e("FUCK", "It broke");
         }
         holder.imageTitle.setText(item.getName());
-        holder.image.setImageBitmap(item.getPhoto());
+        holder.image.setImageBitmap(bmpCompress.decompress(item.getCompressedBMP()));
 
-        //Log.e("FUCK", "FUCK");
 
         return row;
     }

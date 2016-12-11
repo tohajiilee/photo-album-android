@@ -2,11 +2,13 @@ package rmd194jjc372.photoalbumandroid95;
 
 import android.app.ActionBar;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -14,9 +16,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import java.io.FileNotFoundException;
@@ -27,6 +31,7 @@ import java.util.ArrayList;
 import rmd194jjc372.photoalbumandroid95.model.Album;
 import rmd194jjc372.photoalbumandroid95.model.GridViewAdapter;
 import rmd194jjc372.photoalbumandroid95.model.Photo;
+import rmd194jjc372.photoalbumandroid95.model.bmpCompress;
 
 import static android.R.attr.data;
 import static android.R.attr.translateY;
@@ -74,21 +79,17 @@ public class AlbumView extends AppCompatActivity {
 
             }
         });
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Photo item = (Photo) parent.getItemAtPosition(position);
+                //Create intent
+                Intent intent = new Intent(AlbumView.this, PhotoDetails.class);
+                intent.putExtra("title", item.getName());
+                intent.putExtra("image", item.getCompressedBMP());
 
-
-
-
-        /*
-        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        getIntent.setType("image/*");
-
-        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        pickIntent.setType("image/*");
-
-        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
-
-        startActivityForResult(chooserIntent, PICK_IMAGE);*/
+                startActivity(intent);
+            }
+        });
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -96,13 +97,33 @@ public class AlbumView extends AppCompatActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode) {
-            case RESULT_LOAD_IMAGE: //this is a constant, in your case I think it should be '1'
-                if (data != null) {// e.g. "back" pressed"
+            case RESULT_LOAD_IMAGE:
+                if (data != null) {// IE if "back" is pressed
                     Uri contentURI = data.getData();
                     try
-                    {
+                    {/*
+                        Display display = getWindowManager().getDefaultDisplay();
+                        Point size = new Point();
+                        display.getSize(size);
+                        int width = size.x;
+                        int height = size.y;
+
+
+
+                        if(bmp.getHeight() > 300)
+                        {
+                            bmp = scaleDownBitmap(bmp, 300, AlbumView.this);
+                            Log.d("Scaledown", bmp.getHeight() +" to " + (300));
+                        }*/
                         Bitmap bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(contentURI));
-                        HomeScreen.selected.addPhoto(new Photo(bmp, getURIFileName(contentURI)));
+
+                        byte[] comp = bmpCompress.compress(bmp);
+                        HomeScreen.selected.addPhoto(new Photo(comp, getURIFileName(contentURI)));
+
+                        Intent intent = new Intent(AlbumView.this, AlbumView.class);
+
+                        startActivity(intent);
+
                     }
                     catch(FileNotFoundException f)
                     {
@@ -170,5 +191,7 @@ public class AlbumView extends AppCompatActivity {
 
         return fileName;
     }
+
+
 
 }

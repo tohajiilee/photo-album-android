@@ -27,6 +27,9 @@ public class Photo implements Serializable
 	private String name;
 	/** The date taken. */
 	//long takenDate;
+
+	/** */
+    private byte[] compressedBMP;
 	
 	/** The date taken with milliseconds appended. */
 	//Calendar takenCal;
@@ -57,6 +60,17 @@ public class Photo implements Serializable
     {
         photo = photoIn;
         if(photoIn != null)
+        {
+            name = newName;
+            //photoLoc = photoIn.getPath();
+        }
+        tagList = new ArrayList<Tag>();
+    }
+
+    public Photo (byte[] bytes, String newName)
+    {
+        compressedBMP = bytes;
+        if(compressedBMP != null)
         {
             name = newName;
             //photoLoc = photoIn.getPath();
@@ -244,4 +258,9 @@ public class Photo implements Serializable
 	{
 		tagList = list;
 	}
+
+    public byte[] getCompressedBMP()
+    {
+        return  compressedBMP;
+    }
 }

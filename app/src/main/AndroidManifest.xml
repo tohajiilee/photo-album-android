@@ -5,11 +5,11 @@
 
     <application
         android:allowBackup="true"
+        android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:debuggable="true"
         tools:ignore="HardcodedDebugMode">
         <activity
             android:name=".HomeScreen"
@@ -25,7 +25,8 @@
             android:name=".AddNewAlbum"
             android:label="@string/title_activity_add_new_album"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AlbumView"></activity>
+        <activity android:name=".AlbumView" />
+        <activity android:name=".PhotoDetails"></activity>
     </application>
 
 </manifest>
