@@ -2,6 +2,8 @@ package rmd194jjc372.photoalbumandroid95.model;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ public class GridViewAdapter extends ArrayAdapter {
     private Context context;
     private int layoutResourceId;
     private ArrayList<Photo> data = new ArrayList<Photo>();
+    private static Bitmap myBitmap;
 
     public GridViewAdapter(Context context, int layoutResourceId, ArrayList data) {
         super(context, layoutResourceId, data);
@@ -26,29 +29,39 @@ public class GridViewAdapter extends ArrayAdapter {
         this.data = data;
     }
 
-    //@Override
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        ViewHolder holder = null;
+        ViewHolder holder = new ViewHolder();
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
             holder = new ViewHolder();
-            holder.imageTitle = (TextView) row.findViewById(R.id.text);
-            holder.image = (ImageView) row.findViewById(R.id.image);
+            holder.imageTitle = (TextView) row.findViewById(R.id.textView);
+            holder.image = (ImageView) row.findViewById(R.id.ImageView);
             row.setTag(holder);
         } else {
             holder = (ViewHolder) row.getTag();
         }
 
         Photo item = data.get(position);
+
+        Log.d("name", item.getName());
+        if( holder.imageTitle == null)
+        {
+            Log.e("FUCK", "FUCK");
+        }
         holder.imageTitle.setText(item.getName());
         holder.image.setImageBitmap(item.getPhoto());
+
+        //Log.e("FUCK", "FUCK");
+
         return row;
     }
 
-    static class ViewHolder {
+    static class ViewHolder
+    {
         TextView imageTitle;
         ImageView image;
     }

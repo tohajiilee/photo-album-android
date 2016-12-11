@@ -1,6 +1,7 @@
 package rmd194jjc372.photoalbumandroid95;
 
 import android.app.ActionBar;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
@@ -18,6 +19,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import rmd194jjc372.photoalbumandroid95.model.Album;
@@ -25,6 +29,7 @@ import rmd194jjc372.photoalbumandroid95.model.GridViewAdapter;
 import rmd194jjc372.photoalbumandroid95.model.Photo;
 
 import static android.R.attr.data;
+import static android.R.attr.translateY;
 
 public class AlbumView extends AppCompatActivity {
 
@@ -32,7 +37,7 @@ public class AlbumView extends AppCompatActivity {
     private GridViewAdapter gridAdapter;
     private Album selected;
     private ArrayList<Photo> photos;
-    static final int  LOAD_IMAGE_RESULTS = 1;
+    private static final int RESULT_LOAD_IMAGE = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         selected = HomeScreen.selected;
@@ -64,7 +69,7 @@ public class AlbumView extends AppCompatActivity {
                 Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
 
-                startActivityForResult(chooserIntent, LOAD_IMAGE_RESULTS);
+                startActivityForResult(chooserIntent,  RESULT_LOAD_IMAGE);
 
 
             }
@@ -88,30 +93,26 @@ public class AlbumView extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+
         super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case RESULT_LOAD_IMAGE: //this is a constant, in your case I think it should be '1'
+                if (data != null) {// e.g. "back" pressed"
+                    Uri contentURI = data.getData();
+                    try
+                    {
+                        Bitmap bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(contentURI));
+                        HomeScreen.selected.addPhoto(new Photo(bmp, getURIFileName(contentURI)));
+                    }
+                    catch(FileNotFoundException f)
+                    {
 
-        // Here we need to check if the activity that was triggers was the Image Gallery.
-        // If it is the requestCode will match the LOAD_IMAGE_RESULTS value.
-        // If the resultCode is RESULT_OK and there is some data we know that an image was picked.
-        if (requestCode == LOAD_IMAGE_RESULTS && resultCode == RESULT_OK && data != null) {
-            // Let's read picked image data - its URI
-            Uri pickedImage = data.getData();
-            // Let's read picked image path using content resolver
-            String[] filePath = { MediaStore.Images.Media.DATA };
-            Cursor cursor = getContentResolver().query(pickedImage, filePath, null, null, null);
-            cursor.moveToFirst();
-            String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
+                    }
+                }
 
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            Bitmap bitmapIn = BitmapFactory.decodeFile(imagePath, options);
-
-            // Do something with the bitmap
-
-            selected.addPhoto(new Photo(bitmapIn));
-            // At the end remember to close the cursor or you will end with the RuntimeException!
-            cursor.close();
+                break;
         }
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -144,4 +145,30 @@ public class AlbumView extends AppCompatActivity {
         final ArrayList<Photo> imageItems = selected.getPhotoList();
         return imageItems;
     }
+    private String getURIFileName(Uri uri) {
+        String fileName = "noFileName";
+        if (uri.getScheme().equals("file")) {
+            fileName = uri.getLastPathSegment();
+        } else {
+            Cursor cursor = null;
+            try {
+                cursor = getContentResolver().query(uri, new String[]{
+                        MediaStore.Images.ImageColumns.DISPLAY_NAME
+                }, null, null, null);
+
+                if (cursor != null && cursor.moveToFirst()) {
+                    fileName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME));
+                    //Log.d(TAG, "name is " + fileName);
+                }
+            } finally {
+
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+
+        return fileName;
+    }
+
 }
