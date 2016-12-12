@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.net.Uri;
@@ -20,6 +21,8 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.app.AlertDialog;
+import android.widget.EditText;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
@@ -42,6 +45,7 @@ public class AlbumView extends AppCompatActivity {
     private GridViewAdapter gridAdapter;
     private Album selected;
     private ArrayList<Photo> photos;
+    private EditText mEdit;
     private static final int RESULT_LOAD_IMAGE = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,10 @@ public class AlbumView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_view);
         photos = getData();
+        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
+        dlgAlert.setCancelable(true);
+        dlgAlert.create().show();
+        getSupportActionBar().setTitle(selected.getName());
         //getActionBar().setTitle("PhotoAlbum95: " + selected.getName());
         //getSupportActionBar().setTitle("PhotoAlbum95: " + selected.getName());
         //Log.d("Tag", selected.getName());
@@ -86,7 +94,6 @@ public class AlbumView extends AppCompatActivity {
                 Intent intent = new Intent(AlbumView.this, PhotoDetails.class);
                 intent.putExtra("title", item.getName());
                 intent.putExtra("image", item.getCompressedBMP());
-                finish();
                 startActivity(intent);
             }
         });
@@ -118,10 +125,25 @@ public class AlbumView extends AppCompatActivity {
                         Bitmap bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(contentURI));
 
                         byte[] comp = bmpCompress.compress(bmp);
-                        HomeScreen.selected.addPhoto(new Photo(comp, getURIFileName(contentURI)));
-
-                        finish();
-                        startActivity(getIntent());
+                        if(HomeScreen.selected.addPhoto(new Photo(comp, getURIFileName(contentURI)))) {
+                            finish();
+                            startActivity(getIntent());
+                        }
+                        else{
+                            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
+                            dlgAlert.setMessage("Photo " + getURIFileName(contentURI) +
+                                " already exists in album " + selected.getName());
+                            dlgAlert.setTitle("Error");
+                            dlgAlert.setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            //Dismiss
+                                        }
+                                    });
+                            dlgAlert.setCancelable(true);
+                            dlgAlert.create().show();
+                            return;
+                        }
 
                     }
                     catch(FileNotFoundException f)

@@ -73,7 +73,7 @@ public class Album implements Serializable
 	public Boolean addPhoto(Photo photoIn){
 		if(!photoList.isEmpty()){
 			for(int i = 0; i < photoList.size(); i++){
-				if(photoList.contains(photoIn))
+				if(photoList.get(i).getName().equals(photoIn.getName()))
 					return false;
 			}
 			photoList.add(photoIn);
@@ -90,7 +90,7 @@ public class Album implements Serializable
 	 */
 	public void removePhoto(Photo photoIn){
 		for(int i = 0; i < photoList.size(); i++){
-			if(photoList.contains(photoIn)){
+			if(photoList.get(i).getName().equals(photoIn.getName())){
 				photoList.remove(i);
 			}
 		}

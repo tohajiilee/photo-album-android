@@ -34,11 +34,11 @@ public class HomeScreen extends AppCompatActivity
         setContentView(R.layout.activity_home_screen);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if(albumAL.isEmpty())
+        /* if(albumAL.isEmpty())
         {
             albumAL.add(new Album("TestAlbum"));
 
-        }
+        } */
         loadStrings();
 
         ListView mListView = (ListView) findViewById(R.id.AlbumListView);
