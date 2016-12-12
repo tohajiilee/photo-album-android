@@ -86,7 +86,7 @@ public class AlbumView extends AppCompatActivity {
                 Intent intent = new Intent(AlbumView.this, PhotoDetails.class);
                 intent.putExtra("title", item.getName());
                 intent.putExtra("image", item.getCompressedBMP());
-
+                finish();
                 startActivity(intent);
             }
         });
@@ -120,9 +120,8 @@ public class AlbumView extends AppCompatActivity {
                         byte[] comp = bmpCompress.compress(bmp);
                         HomeScreen.selected.addPhoto(new Photo(comp, getURIFileName(contentURI)));
 
-                        Intent intent = new Intent(AlbumView.this, AlbumView.class);
-
-                        startActivity(intent);
+                        finish();
+                        startActivity(getIntent());
 
                     }
                     catch(FileNotFoundException f)
@@ -152,6 +151,7 @@ public class AlbumView extends AppCompatActivity {
         {
             HomeScreen.albumAL.remove(selected);
             selected = null;
+            finish();
             startActivity(new Intent(this,HomeScreen.class));
             return true;
         }
