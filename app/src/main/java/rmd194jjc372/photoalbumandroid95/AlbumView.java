@@ -25,6 +25,7 @@ import android.app.AlertDialog;
 import android.widget.EditText;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.app.Activity;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -47,16 +48,16 @@ public class AlbumView extends AppCompatActivity {
     private ArrayList<Photo> photos;
     private EditText mEdit;
     private static final int RESULT_LOAD_IMAGE = 0;
+    public static Activity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         selected = HomeScreen.selected;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_view);
         photos = getData();
-        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-        dlgAlert.setCancelable(true);
-        dlgAlert.create().show();
         getSupportActionBar().setTitle(selected.getName());
+        activity = this;
         //getActionBar().setTitle("PhotoAlbum95: " + selected.getName());
         //getSupportActionBar().setTitle("PhotoAlbum95: " + selected.getName());
         //Log.d("Tag", selected.getName());
@@ -175,6 +176,12 @@ public class AlbumView extends AppCompatActivity {
             selected = null;
             finish();
             startActivity(new Intent(this,HomeScreen.class));
+            return true;
+        }
+        else if (id == R.id.action_rename)
+        {
+            AddNewAlbum.rename = true;
+            startActivity(new Intent(this,AddNewAlbum.class));
             return true;
         }
 

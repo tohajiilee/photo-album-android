@@ -23,9 +23,9 @@ import rmd194jjc372.photoalbumandroid95.model.bmpCompress;
 
 public class PhotoDetails extends ActionBarActivity {
 
-    private Album selected;
-    private Photo current;
-    private int currentIndex;
+    public static Album selected;
+    public static Photo current;
+    public static int currentIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +36,6 @@ public class PhotoDetails extends ActionBarActivity {
         String title = getIntent().getStringExtra("title");
         byte[] bytes = getIntent().getByteArrayExtra("image");
         Bitmap bitmap = bmpCompress.decompress(bytes);
-
-        TextView titleTextView = (TextView) findViewById(R.id.title);
-        titleTextView.setText(title);
 
         ImageView imageView = (ImageView) findViewById(R.id.image);
         imageView.setImageBitmap(bitmap);
@@ -92,12 +89,14 @@ public class PhotoDetails extends ActionBarActivity {
         {
             selected.removePhoto(current);
             finish();
-            startActivity(new Intent(this,AlbumView.class));
+            startActivity(new Intent(PhotoDetails.this,AlbumView.class));
             return true;
         }
-        else if(id == R.id.action_tags)
+        else if(id == R.id.action_move)
         {
-
+            finish();
+            startActivity(new Intent(PhotoDetails.this,MovePhoto.class));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

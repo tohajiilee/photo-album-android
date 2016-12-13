@@ -1,5 +1,6 @@
 package rmd194jjc372.photoalbumandroid95;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,7 +20,8 @@ public class AddNewAlbum extends AppCompatActivity {
     //public static ArrayList<Album> albumAL = HomeScreen.albumAL;
     Button   mButton;
     EditText mEdit;
-
+    TextView mText;
+    public static Boolean rename = false;
 
     Album newAlbum;
     @Override
@@ -29,8 +31,13 @@ public class AddNewAlbum extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mText = (TextView)findViewById(R.id.errorText);
         mButton = (Button) findViewById(R.id.create);
         mEdit   = (EditText)findViewById(R.id.albumNameIn);
+
+        if(rename){
+            mText.setText("Rename current album:");
+        }
 
         mButton.setOnClickListener(new View.OnClickListener()
         {
@@ -52,8 +59,16 @@ public class AddNewAlbum extends AppCompatActivity {
                         return;
                     }
                 }
-                HomeScreen.albumAL.add(newAlbum);
-                startActivity(new Intent(view.getContext(),HomeScreen.class));
+                if(rename) {
+                    HomeScreen.selected.setName(input);
+                    AlbumView.activity.finish();
+                    finish();
+                    startActivity(new Intent(view.getContext(),HomeScreen.class));
+                }
+                else {
+                    HomeScreen.albumAL.add(newAlbum);
+                    startActivity(new Intent(view.getContext(), HomeScreen.class));
+                }
             }
         });
     }

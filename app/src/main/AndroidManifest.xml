@@ -25,7 +25,8 @@
             android:name=".AddNewAlbum"
             android:label="@string/title_activity_add_new_album"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AlbumView" />
+        <activity android:name=".AlbumView"/>
+        <activity android:name=".MovePhoto" />
         <activity android:name=".PhotoDetails"></activity>
     </application>
 

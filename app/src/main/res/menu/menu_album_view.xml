@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="rmd194jjc372.photoalbumandroid95.AlbumView">
+    <item android:title="Rename Album"
+        android:id="@+id/action_rename" />
     <item
         android:id="@+id/action_delete"
         android:orderInCategory="100"

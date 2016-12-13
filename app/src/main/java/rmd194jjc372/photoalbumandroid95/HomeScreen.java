@@ -1,5 +1,6 @@
 package rmd194jjc372.photoalbumandroid95;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,11 +23,12 @@ import rmd194jjc372.photoalbumandroid95.model.Album;
 import static android.R.id.list;
 import static rmd194jjc372.photoalbumandroid95.R.id.AlbumListView;
 
-public class HomeScreen extends AppCompatActivity
+public class  HomeScreen extends AppCompatActivity
 {
     public static ArrayList<Album> albumAL = new ArrayList<Album>();
     public static ArrayList<String> stringAL = new ArrayList<String>();
     public static Album selected;
+    public static Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class HomeScreen extends AppCompatActivity
             albumAL.add(new Album("TestAlbum"));
 
         } */
+        activity = this;
         loadStrings();
 
         ListView mListView = (ListView) findViewById(R.id.AlbumListView);
