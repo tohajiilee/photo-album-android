@@ -29,7 +29,9 @@ public class AddNewTag extends AppCompatActivity {
     TextView mText;
     RadioGroup mGroup;
     RadioButton mRadioPerson, mRadioLocation;
+    public static Album selected;
     public static Boolean edit = false;
+    public static Boolean search = false;
 
     Photo current;
     Tag currentTag;
@@ -54,12 +56,17 @@ public class AddNewTag extends AppCompatActivity {
             }
             getSupportActionBar().setTitle("Editing Tag");
             mText.setText("Edit current tag:");
+            mButton.setText("Edit Tag");
             mEdit.setText(currentTag.getVal());
             if(currentTag.getType().equals("location")) {
                 ((RadioButton) findViewById(R.id.locationButton)).setChecked(true);
                 ((RadioButton) findViewById(R.id.personButton)).setChecked(false);
             }
-
+        }
+        if(search){
+            getSupportActionBar().setTitle("Search");
+            mText.setText("Search for tag:");
+            mButton.setText("Search");
         }
 
         mButton.setOnClickListener(new View.OnClickListener()
@@ -89,7 +96,7 @@ public class AddNewTag extends AppCompatActivity {
                         return;
                     }
                 }
-                else {
+                else if(!search){
                     if(current.addTag(newTag)) {
                         TagList.activity.finish();
                         finish();
@@ -100,6 +107,10 @@ public class AddNewTag extends AppCompatActivity {
                         return;
                     }
                 }
+                else{
+                    selected = searchWithTag(newTag);
+                    startActivity(new Intent(view.getContext(), AlbumView.class));
+                }
             }
         });
     }
@@ -107,7 +118,8 @@ public class AddNewTag extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_new_tag, menu);
+        if(edit)
+            getMenuInflater().inflate(R.menu.menu_add_new_tag, menu);
         return true;
     }
 
@@ -129,5 +141,25 @@ public class AddNewTag extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public Album searchWithTag(Tag input){
+        Album searchResult = new Album("Search Result");
+        for (Album a : HomeScreen.albumAL)
+            for(Photo p : a.getPhotoList())
+                for(Tag t : p.getTagList())
+                    if(input.getType().equals(t.getType()))
+                        if(t.getVal().contains(input.getVal()))
+                            searchResult.addPhoto(p);
+
+        return searchResult;
+    }
+
+    @Override
+    public void onBackPressed() {
+        search = false;
+        edit = false;
+        selected = null;
+        finish();
     }
 }

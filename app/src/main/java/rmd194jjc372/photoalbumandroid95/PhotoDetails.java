@@ -89,7 +89,8 @@ public class PhotoDetails extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_photo_details, menu);
+        if(!AddNewTag.search)
+            getMenuInflater().inflate(R.menu.menu_photo_details, menu);
         return true;
     }
 

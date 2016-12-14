@@ -52,7 +52,10 @@ public class AlbumView extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        selected = HomeScreen.selected;
+        if(!AddNewTag.search)
+            selected = HomeScreen.selected;
+        else
+            selected = AddNewTag.selected;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_view);
         photos = getData();
@@ -69,25 +72,27 @@ public class AlbumView extends AppCompatActivity {
         gridView.setAdapter(gridAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addPhotoButton);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
+        if(!AddNewTag.search)
+            fab.setOnClickListener(new View.OnClickListener()
             {
-                Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                getIntent.setType("image/*");
+                @Override
+                public void onClick(View view)
+                {
+                    Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                    getIntent.setType("image/*");
 
-                Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                pickIntent.setType("image/*");
+                    Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    pickIntent.setType("image/*");
 
-                Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+                    Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+                    chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
 
-                startActivityForResult(chooserIntent,  RESULT_LOAD_IMAGE);
+                    startActivityForResult(chooserIntent,  RESULT_LOAD_IMAGE);
+                }
+            });
+        else
+            fab.setVisibility(View.GONE);
 
-
-            }
-        });
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Photo item = (Photo) parent.getItemAtPosition(position);
@@ -161,7 +166,8 @@ public class AlbumView extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_album_view, menu);
+        if(!AddNewTag.search)
+            getMenuInflater().inflate(R.menu.menu_album_view, menu);
         return true;
     }
 
