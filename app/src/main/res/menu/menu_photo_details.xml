@@ -2,7 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="View/Edit Tags"
+    <item android:title="Edit Tags"
         android:id="@+id/action_tags" />
     <item android:title="Move Photo"
         android:id="@+id/action_move" />

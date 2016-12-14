@@ -37,6 +37,7 @@ public class AddNewAlbum extends AppCompatActivity {
 
         if(rename){
             mText.setText("Rename current album:");
+            mEdit.setText(HomeScreen.selected.getName());
         }
 
         mButton.setOnClickListener(new View.OnClickListener()

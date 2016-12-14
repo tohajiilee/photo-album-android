@@ -27,7 +27,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AlbumView"/>
         <activity android:name=".MovePhoto" />
-        <activity android:name=".PhotoDetails"></activity>
+        <activity android:name=".PhotoDetails"/>
+        <activity android:name=".TagList" />
+        <activity android:name=".AddNewTag" />
     </application>
 
 </manifest>

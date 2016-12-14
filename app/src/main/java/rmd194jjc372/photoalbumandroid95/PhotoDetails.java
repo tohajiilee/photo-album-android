@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -17,12 +19,16 @@ import android.view.View.OnTouchListener;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import rmd194jjc372.photoalbumandroid95.model.Album;
 import rmd194jjc372.photoalbumandroid95.model.Photo;
+import rmd194jjc372.photoalbumandroid95.model.Tag;
 import rmd194jjc372.photoalbumandroid95.model.bmpCompress;
 
 public class PhotoDetails extends ActionBarActivity {
 
+    public static ArrayList<String> stringAL = new ArrayList<String>();
     public static Album selected;
     public static Photo current;
     public static int currentIndex;
@@ -46,6 +52,13 @@ public class PhotoDetails extends ActionBarActivity {
             }
         }
         getSupportActionBar().setTitle(current.getName());
+
+        loadStrings();
+
+        ListView mListView = (ListView) findViewById(R.id.tag_list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.smalltextview, stringAL);
+
+        mListView.setAdapter(adapter);
 
         imageView.setOnTouchListener(new OnSwipeTouchListener(this.getBaseContext()) {
             @Override
@@ -96,6 +109,12 @@ public class PhotoDetails extends ActionBarActivity {
         {
             finish();
             startActivity(new Intent(PhotoDetails.this,MovePhoto.class));
+            return true;
+        }
+        else if(id == R.id.action_tags)
+        {
+            finish();
+            startActivity(new Intent(PhotoDetails.this,TagList.class));
             return true;
         }
 
@@ -149,5 +168,12 @@ public class PhotoDetails extends ActionBarActivity {
         }
     }
 
-
+    public void loadStrings()
+    {
+        stringAL.clear();
+        for(Tag t: current.getTagList())
+        {
+            stringAL.add(t.toString());
+        }
+    }
 }

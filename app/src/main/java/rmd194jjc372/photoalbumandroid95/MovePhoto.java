@@ -31,11 +31,6 @@ public class MovePhoto extends AppCompatActivity {
         selected = HomeScreen.selected;
         current = PhotoDetails.current;
         dlgAlert = new AlertDialog.Builder(this);
-        /* if(albumAL.isEmpty())
-        {
-            albumAL.add(new Album("TestAlbum"));
-
-        } */
         loadStringsExclusive();
 
         ListView mListView = (ListView) findViewById(R.id.AlbumListView_Move);
@@ -82,12 +77,20 @@ public class MovePhoto extends AppCompatActivity {
         return -1;
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent = new Intent(MovePhoto.this, PhotoDetails.class);
+        intent.putExtra("title", PhotoDetails.current.getName());
+        intent.putExtra("image", PhotoDetails.current.getCompressedBMP());
+        startActivity(intent);
+    }
+
     public void loadStringsExclusive()
     {
         stringAL.clear();
         for(Album a: HomeScreen.albumAL)
         {
-            //Log.e("My app", a.getName());
             if(!(selected.getName().equals(a.getName())))
                 stringAL.add(a.getName());
         }
