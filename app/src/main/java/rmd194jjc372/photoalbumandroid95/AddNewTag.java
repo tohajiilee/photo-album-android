@@ -67,6 +67,7 @@ public class AddNewTag extends AppCompatActivity {
             getSupportActionBar().setTitle("Search");
             mText.setText("Search for tag:");
             mButton.setText("Search");
+            mEdit.setHint("(case sensitive)...");
         }
 
         mButton.setOnClickListener(new View.OnClickListener()
@@ -149,7 +150,7 @@ public class AddNewTag extends AppCompatActivity {
             for(Photo p : a.getPhotoList())
                 for(Tag t : p.getTagList())
                     if(input.getType().equals(t.getType()))
-                        if(t.getVal().contains(input.getVal()))
+                        if(t.getVal().startsWith(input.getVal()))
                             searchResult.addPhoto(p);
 
         return searchResult;
