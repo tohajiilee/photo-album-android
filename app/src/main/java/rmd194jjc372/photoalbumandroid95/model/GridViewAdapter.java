@@ -47,10 +47,9 @@ public class GridViewAdapter extends ArrayAdapter {
 
         Photo item = data.get(position);
 
-        Log.d("name", item.getName());
         if( holder.imageTitle == null)
         {
-            Log.e("FUCK", "It broke");
+            Log.e("Error", "Image title broken");
         }
         holder.imageTitle.setText(item.getName());
         holder.image.setImageBitmap(bmpCompress.decompress(item.getCompressedBMP()));

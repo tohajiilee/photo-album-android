@@ -89,6 +89,7 @@ public class AddNewTag extends AppCompatActivity {
                 if(edit) {
                     if(current.editTag(currentTag.toString(), newTag)){
                         TagList.activity.finish();
+                        HomeScreen.homeScr.saveData();
                         finish();
                         startActivity(new Intent(view.getContext(), TagList.class));
                     }
@@ -100,6 +101,7 @@ public class AddNewTag extends AppCompatActivity {
                 else if(!search){
                     if(current.addTag(newTag)) {
                         TagList.activity.finish();
+                        HomeScreen.homeScr.saveData();
                         finish();
                         startActivity(new Intent(view.getContext(), TagList.class));
                     }
@@ -136,6 +138,7 @@ public class AddNewTag extends AppCompatActivity {
             current.removeTag(currentTag.toString());
             TagList.selectedTag = null;
             TagList.activity.finish();
+            HomeScreen.homeScr.saveData();
             finish();
             startActivity(new Intent(AddNewTag.this, TagList.class));
             return true;

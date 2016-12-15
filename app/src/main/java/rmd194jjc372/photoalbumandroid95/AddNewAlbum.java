@@ -62,16 +62,21 @@ public class AddNewAlbum extends AppCompatActivity {
                 }
                 if(rename) {
                     HomeScreen.selected.setName(input);
+                    HomeScreen.homeScr.saveData();
                     AlbumView.activity.finish();
                     finish();
                     startActivity(new Intent(view.getContext(),HomeScreen.class));
                 }
                 else {
                     HomeScreen.albumAL.add(newAlbum);
+                    HomeScreen.homeScr.saveData();
+                    finish();
                     startActivity(new Intent(view.getContext(), HomeScreen.class));
                 }
             }
         });
     }
+
+
 
 }

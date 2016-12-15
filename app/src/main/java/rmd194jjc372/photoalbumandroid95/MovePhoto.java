@@ -46,6 +46,7 @@ public class MovePhoto extends AppCompatActivity {
                     selected.removePhoto(current);
                     AlbumView.activity.finish();
                     Intent intent = new Intent(MovePhoto.this, AlbumView.class);
+                    HomeScreen.homeScr.saveData();
                     finish();
                     startActivity(intent);
                 }

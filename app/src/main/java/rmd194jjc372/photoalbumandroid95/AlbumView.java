@@ -150,6 +150,7 @@ public class AlbumView extends AppCompatActivity {
                             dlgAlert.create().show();
                             return;
                         }
+                        HomeScreen.homeScr.saveData();
 
                     }
                     catch(FileNotFoundException f)
@@ -180,6 +181,7 @@ public class AlbumView extends AppCompatActivity {
         {
             HomeScreen.albumAL.remove(selected);
             selected = null;
+            HomeScreen.homeScr.saveData();
             finish();
             startActivity(new Intent(this,HomeScreen.class));
             return true;
@@ -227,6 +229,11 @@ public class AlbumView extends AppCompatActivity {
         return fileName;
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+        selected = null;
+        HomeScreen.homeScr.saveData();
+        finish();
+        startActivity(new Intent(this,HomeScreen.class));
+    }
 }

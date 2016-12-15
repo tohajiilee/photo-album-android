@@ -19,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 
 import rmd194jjc372.photoalbumandroid95.model.Album;
@@ -29,6 +30,7 @@ public class  HomeScreen extends AppCompatActivity
     public static ArrayList<String> stringAL = new ArrayList<String>();
     public static Album selected;
     public static Activity activity;
+    public static HomeScreen homeScr;
     private String fileName = "data.ser";
 
     @Override
@@ -37,6 +39,7 @@ public class  HomeScreen extends AppCompatActivity
         setContentView(R.layout.activity_home_screen);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        homeScr = this;
         /* if(albumAL.isEmpty())
         {
             albumAL.add(new Album("TestAlbum"));
@@ -62,6 +65,7 @@ public class  HomeScreen extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                finish();
                 startActivity(new Intent(view.getContext(),AddNewAlbum.class));
             }
         });
@@ -71,7 +75,7 @@ public class  HomeScreen extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 selected = albumAL.get(position);
-
+                finish();
                 Intent intent = new Intent(HomeScreen.this, AlbumView.class);
 
                 startActivity(intent);
@@ -123,6 +127,12 @@ public class  HomeScreen extends AppCompatActivity
         try {
 
             ArrayList<Album> DataToSave = albumAL;
+            if(openFileOutput(fileName, Context.MODE_PRIVATE) == null){
+                File file = new File(getFilesDir(), fileName);
+                FileOutputStream newfos = new FileOutputStream(file);
+                newfos.flush();
+                newfos.close();
+            }
             FileOutputStream fos = getApplicationContext().openFileOutput(fileName, Context.MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(DataToSave);
