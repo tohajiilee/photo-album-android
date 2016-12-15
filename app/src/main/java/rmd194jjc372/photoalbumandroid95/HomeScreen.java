@@ -1,14 +1,12 @@
 package rmd194jjc372.photoalbumandroid95;
 
 import android.app.Activity;
-import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,12 +14,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import rmd194jjc372.photoalbumandroid95.model.Album;
-
-import static android.R.id.list;
-import static rmd194jjc372.photoalbumandroid95.R.id.AlbumListView;
 
 public class  HomeScreen extends AppCompatActivity
 {
@@ -29,6 +29,7 @@ public class  HomeScreen extends AppCompatActivity
     public static ArrayList<String> stringAL = new ArrayList<String>();
     public static Album selected;
     public static Activity activity;
+    private String fileName = "data.ser";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,12 @@ public class  HomeScreen extends AppCompatActivity
             albumAL.add(new Album("TestAlbum"));
 
         } */
+        /*Intent intent = new Intent(HomeScreen.this, DataManagement.class);
+
+        startActivity(intent);
+        */
+        loadData();
+
         activity = this;
         loadStrings();
 
@@ -108,6 +115,37 @@ public class  HomeScreen extends AppCompatActivity
         {
             //Log.e("My app", a.getName());
             stringAL.add(a.getName());
+        }
+    }
+
+
+    public void saveData() {
+        try {
+
+            ArrayList<Album> DataToSave = albumAL;
+            FileOutputStream fos = getApplicationContext().openFileOutput(fileName, Context.MODE_PRIVATE);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
+            os.writeObject(DataToSave);
+            os.close();
+            fos.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadData() {
+        try {
+
+            FileInputStream fis = getApplicationContext().openFileInput(fileName);
+            ObjectInputStream is = new ObjectInputStream(fis);
+
+            albumAL = (ArrayList<Album>) is.readObject();
+
+            is.close();
+            fis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
