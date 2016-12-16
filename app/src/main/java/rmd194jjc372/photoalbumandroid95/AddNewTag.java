@@ -161,9 +161,6 @@ public class AddNewTag extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        search = false;
-        edit = false;
-        selected = null;
         finish();
     }
 }

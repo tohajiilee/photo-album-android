@@ -52,6 +52,7 @@ public class TagList extends AppCompatActivity {
             public void onClick(View view)
             {
                 AddNewTag.edit = false;
+                AddNewTag.search = false;
                 startActivity(new Intent(view.getContext(),AddNewTag.class));
             }
         });
@@ -64,7 +65,7 @@ public class TagList extends AppCompatActivity {
             {
                 selectedTag = current.getTagList().get(position);
                 AddNewTag.edit = true;
-                startActivity(new Intent(TagList.this, AddNewTag.class));
+                AddNewTag.search = false;
                 return;
             }
 

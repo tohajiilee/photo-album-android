@@ -102,6 +102,7 @@ public class  HomeScreen extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
             AddNewTag.search = true;
+            AddNewTag.edit = false;
             Intent intent = new Intent(HomeScreen.this, AddNewTag.class);
             startActivity(intent);
             return true;
