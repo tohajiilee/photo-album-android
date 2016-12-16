@@ -2,13 +2,10 @@ package rmd194jjc372.photoalbumandroid95;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,7 +13,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import rmd194jjc372.photoalbumandroid95.model.Album;
 import rmd194jjc372.photoalbumandroid95.model.Photo;
 import rmd194jjc372.photoalbumandroid95.model.Tag;
 
@@ -66,6 +62,7 @@ public class TagList extends AppCompatActivity {
                 selectedTag = current.getTagList().get(position);
                 AddNewTag.edit = true;
                 AddNewTag.search = false;
+                startActivity(new Intent(view.getContext(),AddNewTag.class));
                 return;
             }
 

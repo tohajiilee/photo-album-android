@@ -232,6 +232,8 @@ public class AlbumView extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         selected = null;
+        if(AddNewTag.search)
+            AddNewTag.search = false;
         HomeScreen.homeScr.saveData();
         finish();
         startActivity(new Intent(this,HomeScreen.class));

@@ -104,6 +104,7 @@ public class  HomeScreen extends AppCompatActivity
             AddNewTag.search = true;
             AddNewTag.edit = false;
             Intent intent = new Intent(HomeScreen.this, AddNewTag.class);
+            finish();
             startActivity(intent);
             return true;
         }

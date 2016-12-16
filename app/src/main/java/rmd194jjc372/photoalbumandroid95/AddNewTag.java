@@ -112,6 +112,7 @@ public class AddNewTag extends AppCompatActivity {
                 }
                 else{
                     selected = searchWithTag(newTag);
+                    finish();
                     startActivity(new Intent(view.getContext(), AlbumView.class));
                 }
             }
@@ -161,6 +162,7 @@ public class AddNewTag extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        selected = null;
         finish();
     }
 }

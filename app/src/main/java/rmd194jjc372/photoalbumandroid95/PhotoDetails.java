@@ -35,7 +35,10 @@ public class PhotoDetails extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        selected = HomeScreen.selected;
+        if(AddNewTag.search)
+            selected = AddNewTag.selected;
+        else
+            selected = HomeScreen.selected;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_details);
 
