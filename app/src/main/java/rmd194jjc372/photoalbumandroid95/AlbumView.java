@@ -100,6 +100,7 @@ public class AlbumView extends AppCompatActivity {
                 Intent intent = new Intent(AlbumView.this, PhotoDetails.class);
                 intent.putExtra("title", item.getName());
                 intent.putExtra("image", item.getCompressedBMP());
+                finish();
                 startActivity(intent);
             }
         });

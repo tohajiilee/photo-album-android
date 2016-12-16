@@ -180,4 +180,11 @@ public class PhotoDetails extends ActionBarActivity {
             stringAL.add(t.toString());
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent = new Intent(PhotoDetails.this, AlbumView.class);
+        startActivity(intent);
+    }
 }
