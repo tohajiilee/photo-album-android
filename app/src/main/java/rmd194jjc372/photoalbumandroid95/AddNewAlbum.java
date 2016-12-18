@@ -61,6 +61,7 @@ public class AddNewAlbum extends AppCompatActivity {
                     }
                 }
                 if(rename) {
+                    rename = false;
                     HomeScreen.selected.setName(input);
                     HomeScreen.homeScr.saveData();
                     AlbumView.activity.finish();
